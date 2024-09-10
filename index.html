@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Fitness</title>
+
+    <style>
+        body {
+            display: flex; 
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .input-container {
+            margin-bottom: 20px;
+        }
+
+        .graph-container {
+            width: 40%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Fitness Tracker</h1>
+
+    <div class = "input-container">
+        <label>Calories Burnt </label>
+        <input type = "number" id = "input1">
+        <button onclick = "drawGraph1()">Add</button>
+    </div>
+
+    <div class = "input-container">
+        <label>Steps Taken </label>
+        <input type = "number" id = "input2">
+        <button onclick = "drawGraph2()">Add</button>
+    </div>
+    
+    <script src = "https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <div class = "graph-container">
+        <canvas id = "canvas1" width = "400" height = "400"></canvas>
+    </div>
+    
+    <div class = "graph-container">
+        <canvas id = "canvas2" width = "400" height = "400"></canvas>
+    </div>
+
+    <script>
+
+        var t1_list = [];
+        var I1_list = [];
+
+        function drawGraph1() {
+            var I1 = document.getElementById("input1").value;
+            var t1 = new Date ().toLocaleString ();
+
+            t1_list.push (t1);
+            I1_list.push (I1);
+
+            updateGraph1();
+        }
+
+        var t2_list = [];
+        var I2_list = [];
+
+        function drawGraph2() {
+            var I2 = document.getElementById("input2").value;
+            var t2 = new Date ().toLocaleString ();
+
+            t2_list.push (t2);
+            I2_list.push (I2);
+
+            updateGraph2();
+        }
+
+        function updateGraph1() {
+            chart1.data.labels = t1_list;
+            chart1.data.datasets [0].data = I1_list;
+            chart1.update ();
+        }
+
+        function updateGraph2() {
+            chart2.data.labels = t2_list;
+            chart2.data.datasets [0].data = I2_list;
+            chart2.update ();
+        }
+            
+        var canvas1 = document.getElementById ("canvas1");
+        var canvas2 = document.getElementById ("canvas2");
+
+        var chart1 = new Chart (canvas1, {
+            type: "bar",
+        
+            data: {
+                labels: [], 
+                datasets: [{
+                    data: [], 
+                    label: "Calories burned",
+                    backgroundColor: ["green"]
+                }]
+            },
+
+
+            options: {
+                responsive: true,
+
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: "Date"
+                        }
+                    }
+                },
+
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+
+                    title: {
+                        display: true,
+                        text: "# of Calories Burned in Total"
+                    }
+                }
+            }
+        });
+
+        var chart2 = new Chart (canvas2, {
+            type: "bar",
+
+            data: {
+                labels: [],
+                datasets: [{
+                    data: [],
+                    label: "Steps Taken",
+                    backgroundColor: ["blue"]
+                }]
+            },
+
+            options: {
+                responsive: true,
+                
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: "Date"
+                        }
+                    }
+                },
+
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+
+                    title: {
+                        display: true,
+                        text: "# of Steps Taken in Total"
+                    }
+                }
+            }
+        });
+
+
+    </script>
+
+</body>
+
+</html>
